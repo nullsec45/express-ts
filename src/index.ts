@@ -4,6 +4,9 @@ import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
 
+// Routers
+import UserRoutes from "./routers/UserRoutes";
+
 class App{
     public app: Application;
 
@@ -26,12 +29,7 @@ class App{
             res.send("ini adalah route menggunakan TS");
         });
 
-        this.app.route("/users").post((req: Request, res:Response) => {
-            // res.set("Content-Type", "application/json");
-            res.setHeader("Content-Type", "text/html");
-            res.send(req.body);
-            console.log(req.body);
-        });
+       this.app.use("/users", UserRoutes);
     }
 }
 
@@ -41,19 +39,4 @@ const app=new App().app;
 
 app.listen(port, () => {
     console.log(`Aplikasi ini berjalan di port ${port}`);
-})
-// const app=new express();
-// const app: express.Application = express();
-
-// app.use(express.json());
-
-// app.route("/").get((req:any, res:any) => {
-//     res.send("Halo, nama saya fajar");
-// })
-// app.route("/users").post((req: Request, res:Response) => {
-//                 res.set("Content-Type", "application/json");
-//                 res.setHeader("Content-Type", "text/html");
-//                 res.send(req.body);
-//                 console.log(req.body);
-// });
-// app.listen(8080);
+});
