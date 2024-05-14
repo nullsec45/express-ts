@@ -27,7 +27,7 @@ var App = /** @class */ (function () {
         this.app.route("/").get(function (req, res) {
             res.send("ini adalah route menggunakan TS");
         });
-        this.app.use("/users", UserRoutes_1.default);
+        this.app.use("/api/v1/users", UserRoutes_1.default);
     };
     return App;
 }());
