@@ -3,6 +3,7 @@ import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
+import {config as dotenv} from "dotenv";
 
 // Routers
 import UserRoutes from "./routers/UserRoutes";
@@ -14,6 +15,7 @@ class App{
         this.app=express();
         this.plugins();
         this.routes();
+        dotenv();
     }
 
     private plugins(){
@@ -39,4 +41,6 @@ const app=new App().app;
 
 app.listen(port, () => {
     console.log(`Aplikasi ini berjalan di port ${port}`);
+
+    console.log(process.env.DB_USERNAME)
 });
