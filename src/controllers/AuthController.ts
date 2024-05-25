@@ -1,26 +1,19 @@
 import {Request, Response} from "express";
-
-let data:any[]=[
-    {id:1, name:"Rama"},
-    {id:2, name:"Fajar"},
-    {id:3, name:"Fadhillah"}
-]
-
+import PasswordHash from "../utils/PasswordHash";
+const db=require("../db/models/");
 
 class AuthController {
-    register(req: Request, res: Response): Response {
-        return res.send(data);
+    register=async (req: Request, res: Response): Promise<Response> => {
+        let {username, password}=req.body;
+        const hashedPassword:string=await PasswordHash.hash(password);
+
+        await db.user.create({username, password:hashedPassword});
+
+        return res.send("Registration Success");
     }
 
     login(req: Request, res: Response): Response {
-        const {id, name}=req.body;
-
-        data.push({id, name});
-
-        return res.send({
-            message:"Created Success",
-            data
-        });
+        return res.send("");
     }
 }
 
