@@ -11,7 +11,7 @@ const validate=[
             return res.status(422).send({errors:errors.array()});
         }
 
-        next();
+       return next();
     }
 ];
 
