@@ -1,51 +1,47 @@
-import express, {Application, Request, Response} from "express";
+import express, { Application, Request, Response } from "express";
 import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
-import {config as dotenv} from "dotenv";
+import { config as dotenv } from "dotenv";
 
 // Routers
 import UserRoutes from "./routers/UserRoutes";
 import AuthRoutes from "./routers/AuthRoutes";
 import TodoRoutes from "./routers/TodoRoutes";
 
+class App {
+  public app: Application;
 
-class App{
-    public app: Application;
+  constructor() {
+    this.app = express();
+    this.plugins();
+    this.routes();
+    dotenv();
+  }
 
-    constructor(){
-        this.app=express();
-        this.plugins();
-        this.routes();
-        dotenv();
-    }
+  private plugins() {
+    this.app.use(express.json());
+    this.app.use(morgan("dev"));
+    this.app.use(compression());
+    this.app.use(cors());
+    this.app.use(helmet());
+  }
 
-    private plugins(){
-        this.app.use(express.json());
-        this.app.use(morgan("dev"));
-        this.app.use(compression());
-        this.app.use(cors());
-        this.app.use(helmet());
-    }
-   
-    protected routes(): void{
-        this.app.route("/").get((req: Request, res: Response) => {
-            res.send("ini adalah route menggunakan TS");
-        });
+  protected routes(): void {
+    this.app.route("/").get((req: Request, res: Response) => {
+      res.send("ini adalah route menggunakan TS");
+    });
 
-       this.app.use("/api/v1/users", UserRoutes);
-       this.app.use("/api/v1/auth", AuthRoutes);
-       this.app.use("/api/v1/todos", TodoRoutes);
-    }
+    this.app.use("/api/v1/users", UserRoutes);
+    this.app.use("/api/v1/auth", AuthRoutes);
+    this.app.use("/api/v1/todos", TodoRoutes);
+  }
 }
 
-const port: number=8080;
-const app=new App().app;
-
+const port: number = 8090;
+const app = new App().app;
 
 app.listen(port, () => {
-    console.log(`Aplikasi ini berjalan di port ${port}`);
-
-    console.log(process.env.DB_USERNAME)
+  console.log(`Aplikasi ini berjalan di port ${port}`);
 });
